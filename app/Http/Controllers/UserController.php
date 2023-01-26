@@ -19,11 +19,11 @@ class UserController extends Controller
     public function store(UserCreateRequest $request)
     {
         $user = User::create(
-            $request->only('firstname', 'lastname', 'email')
+            $request->only('firstname', 'lastname', 'email', 'role_id')
             + ['password' => \Hash::make(1234)]
         );
 
-        return response($user, Response::HTTP_CREATED);
+        return response(new UserResource($user), Response::HTTP_CREATED);
     }
 
     public function show($id)
@@ -36,7 +36,7 @@ class UserController extends Controller
         $user = User::find($id);
         $user->update($request->only('firstname', 'lastname', 'email'));
 
-        return \response($user, Response::HTTP_ACCEPTED);
+        return \response(new UserResource($user), Response::HTTP_ACCEPTED);
     }
 
     public function destroy($id)
