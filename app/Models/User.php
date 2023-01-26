@@ -48,4 +48,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password'
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }
