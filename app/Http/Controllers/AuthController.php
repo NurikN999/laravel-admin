@@ -56,4 +56,12 @@ class AuthController extends Controller
             'message' => 'success'
         ])->withCookie($cookie);
     }
+
+    public function updateInfo(Request $request)
+    {
+        $user = $request->user();
+        $user->update($request->only('firstname', 'lastname', 'email'));
+
+        return \response($user, Response::HTTP_ACCEPTED);
+    }
 }
