@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateInfoRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use http\Cookie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
