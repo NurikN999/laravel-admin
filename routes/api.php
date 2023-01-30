@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\AuthController;
 use \App\Http\Controllers\UserController;
@@ -31,4 +32,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('permissions', [PermissionController::class, 'index']);
     Route::apiResource('roles', RoleController::class);
     Route::apiResource('products', ProductController::class);
+    Route::post('upload', [ImageController::class, 'upload']);
 });
