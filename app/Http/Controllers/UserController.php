@@ -18,7 +18,15 @@ class UserController extends Controller
      *     security={{"bearerAuth":{}}},
      *     @OA\Response(response="200",
      *         description="User Collection",
-     *         )
+     *         ),
+     *     @OA\Parameter (
+     *         name="page",
+     *         description="Pagination page",
+     *         in="query",
+     *         @OA\Schema (
+     *             type="integer"
+     * )
+     * )
      * )
      */
     public function index()
@@ -33,6 +41,7 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @OA\Post (path="/api/users",
+     *     security={{"bearerAuth":{}}},
      *      @OA\Response(response="201",
      *          description="Create user",
      *      )
@@ -50,6 +59,25 @@ class UserController extends Controller
         return response(new UserResource($user), Response::HTTP_CREATED);
     }
 
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @OA\Get (path="/api/users/{id}",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response="200",
+     *         description="User",
+     *         ),
+     *     @OA\Parameter (
+     *         name="id",
+     *         description="User ID",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema (
+     *             type="integer"
+     * )
+     * )
+     * )
+     */
     public function show($id)
     {
         $this->authorize('view', 'users');
