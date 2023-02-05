@@ -33,3 +33,16 @@
     docker-compose exec backend sh 
     composer install
 ```
+
+#### Информацию по роутам можно найти в документации, которую генерирует swagger
+
+Для теста роутов через swagger, Вам необходимо будет авторизоваться. Для этого запустите команду 
+```code 
+    php artisan token:generate {id_пользователя}
+```
+
+```code
+    php artisan l5-swagger:generate
+```
+
+
