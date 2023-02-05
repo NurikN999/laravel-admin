@@ -11,6 +11,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @OA\Get (path="/api/users",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response="200",
+     *         description="User Collection",
+     *         )
+     * )
+     */
     public function index()
     {
         $this->authorize('view', 'users');
@@ -18,6 +28,16 @@ class UserController extends Controller
         return UserResource::collection(User::with('role')->paginate());
     }
 
+    /**
+     * @param UserCreateRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @OA\Post (path="/api/users",
+     *      @OA\Response(response="201",
+     *          description="Create user",
+     *      )
+     * )
+     */
     public function store(UserCreateRequest $request)
     {
         $this->authorize('edit', 'users');
