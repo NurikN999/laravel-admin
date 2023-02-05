@@ -16,6 +16,7 @@ class UserController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @OA\Get (path="/api/users",
      *     security={{"bearerAuth":{}}},
+     *     tags={"Users"},
      *     @OA\Response(response="200",
      *         description="User Collection",
      *         ),
@@ -42,9 +43,14 @@ class UserController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @OA\Post (path="/api/users",
      *     security={{"bearerAuth":{}}},
+     *     tags={"Users"},
      *      @OA\Response(response="201",
      *          description="Create user",
-     *      )
+     *      ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/UserCreateRequest")
+     *     )
      * )
      */
     public function store(UserCreateRequest $request)
@@ -64,6 +70,7 @@ class UserController extends Controller
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @OA\Get (path="/api/users/{id}",
      *     security={{"bearerAuth":{}}},
+     *     tags={"Users"},
      *     @OA\Response(response="200",
      *         description="User",
      *         ),
@@ -85,15 +92,59 @@ class UserController extends Controller
         return new UserResource(User::with('role')->find($id));
     }
 
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @OA\Put (path="/api/users/{id}",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Users"},
+     *     @OA\Response(response="202",
+     *         description="User Update",
+     *         ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/UserUpdateRequest")
+     *     ),
+     *     @OA\Parameter (
+     *         name="id",
+     *         description="User ID",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema (
+     *             type="integer"
+     * )
+     * )
+     * )
+     */
     public function update(UserUpdateRequest $request, $id)
     {
         $this->authorize('edit', 'users');
         $user = User::find($id);
-        $user->update($request->only('firstname', 'lastname', 'email'));
+        $user->update($request->only('firstname', 'lastname', 'email', 'role_id'));
 
         return \response(new UserResource($user), Response::HTTP_ACCEPTED);
     }
 
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @OA\Delete (path="/api/users/{id}",
+     *     security={{"bearerAuth":{}}},
+     *     tags={"Users"},
+     *     @OA\Response(response="204",
+     *         description="User Delete",
+     *         ),
+     *     @OA\Parameter (
+     *         name="id",
+     *         description="User ID",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema (
+     *             type="integer"
+     * )
+     * )
+     * )
+     */
     public function destroy($id)
     {
         $this->authorize('edit', 'users');
