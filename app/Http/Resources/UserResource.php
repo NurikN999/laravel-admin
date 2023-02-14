@@ -18,7 +18,7 @@ class UserResource extends JsonResource
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
             'email'=> $this->email,
-            'role' => new ProductResource($this->whenLoaded('role'))
+            'role' => new RoleResource($this->whenLoaded('role'))
         ];
     }
 }
