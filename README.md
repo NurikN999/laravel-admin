@@ -19,7 +19,7 @@
     DB_PORT=3306
     DB_DATABASE=admin
     DB_USERNAME=root
-    DB_PASSWORD=Nuriknurik1228337!
+    DB_PASSWORD=password
 ```
 
 #### Запускаем build и стартуем контейнеры
